@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 /**
-  * struct directives - holds format specifiers and their functhions
+  * struct directives - holds format specifiers and their functions
   * @spec: char
   * @fspec: function pointer
   *
