@@ -3,45 +3,50 @@
 /**
   * _printf - produces output acording to a given format
   * @format: format string containing the characters and the specifiers
-  * Description: this function will call the get_print() function that will
-  * determine which printing function to call depending on the conversion
- * specifiers contained into fmt
- * Return: length of the formatted output string
+  *
+  *Return: length of the formatted output string
  */
 int _printf(const char *format, ...)
 {
-	int (*pfunc)(va_list, flags_t *);
-	const char *p;
-	va_list arguments;
-	flags_t flags = {0, 0, 0};
+	va_list lists;
+	int k, len;
+	int (*get_ptr)(va_list, int);
 
-	register int count = 0;
-
-	va_start(arguments, format);
-	if (!format || (format[0] == '%' && !format[1]))
+	va_start(lists, format);
+	if (!(format))
 		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = format; *p; p++)
+	k = 0;
+	len = 0;
+	while (format && format[k])
 	{
-		if (*p == '%')
+		if (format[k] == '%')
 		{
-			p++;
-			if (*p == '%')
+			k++;
+			if (format[k] == '%')
 			{
-				count += _putchar('%');
+				len += _putchar(format[k]);
+				k++;
 				continue;
 			}
-			while (get_flag(*p, &flags))
-				p++;
-			pfunc = get_print(*p);
-			count += (pfunc)
-				? pfunc(arguments, &flags)
-				: _printf("%%%c", *p);
-		} else
-			count += _putchar(*p);
+			if (format[k] == '\0')
+				return (-1);
+			get_ptr = get_print_func(format[k]);
+			if (get_ptr != NULL)
+			len = get_ptr(lists, len);
+
+			else
+			{
+			len += _putchar(format[k - 1]);
+			len += _putchar(format[k]);
+			}
+			k++;
+		}
+		else
+		{
+			len += _putchar(format[k]);
+			k++;
+		}
 	}
-	_putchar(-1);
-	va_end(arguments);
-	return (count);
+	va_end(lists);
+	return (len);
 }
