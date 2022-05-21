@@ -1,36 +1,35 @@
 #include "main.h"
 
 /**
-  * get_print_func - returns pointer to function
-  * @c: character to find pointer function
+  * get_print - returns pointer to function
+  * @s: holds conversion specifier
   *
   * Return: pointer to function or NULL.
   */
-int (*get_print_func(char c))(va_list, int)
+int (*get_print(char s))(va_list, flags_t *)
 {
-	forms specifics[] = {
-		{'c', print_ch},
-		{'s', print_str},
-		{'d', print_int},
+	ph func_arr[] = {
 		{'i', print_int},
-		{'u', print_unsignd},
-		{'o', print_octal},
+		{'s', print_string},
+		{'c', print_char},
+		{'d', print_int},
+		{'u', print_unsigned},
 		{'x', print_hex},
-		{'X', print_heX},
+		{'X', print_hex_big},
+		{'b', print_binary},
+		{'o', print_octal},
 		{'R', print_rot13},
-		{'b', print_b},
-		{'S', print_Str}
+		{'r', print_rev},
+		{'S', print_bigS},
+		{'p', print_address},
+		{'%', print_percent}
 	};
+	int flags = 14;
 
-	int k;
+	register int i;
 
-	for (k = 0; specifics[k].spec; k++)
-	{
-		if (c == specifics[k].spec)
-		{
-			return (specifics[k].fspec);
-		}
-	}
-
+	for (i = 0; i < flags; i++)
+		if (func_arr[i].c == s)
+			return (func_arr[i].f);
 	return (NULL);
 }
