@@ -8,11 +8,11 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list lists;
+	va_list args;
 	int k, len;
 	int (*get_ptr)(va_list, int);
 
-	va_start(lists, format);
+	va_start(args, format);
 	if (!(format))
 		return (-1);
 	k = 0;
@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 				return (-1);
 			get_ptr = get_print_func(format[k]);
 			if (get_ptr != NULL)
-			len = get_ptr(lists, len);
+			len = get_ptr(args, len);
 
 			else
 			{
@@ -47,6 +47,6 @@ int _printf(const char *format, ...)
 			k++;
 		}
 	}
-	va_end(lists);
+	va_end(args);
 	return (len);
 }
