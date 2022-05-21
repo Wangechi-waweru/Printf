@@ -1,84 +1,83 @@
 #include "main.h"
 
 /**
- * print_int - prints an integer
- * @l: va_list of arguments from _printf
- * @f: pointer to the struct flags determining
- * if a flag is passed to _printf
- * Return: number of char printed
- */
-int print_int(va_list l, flags_t *f)
-{
-	int n = va_arg(l, int);
-	int res = count_digit(n);
+  * print_int - Prints number to std output
+  * @args: List of arguments
+  * @len: Length of string so far
+  *
+  * Return: The new length of the string
+  */
 
-	if (f->space == 1 && f->plus == 0 && n >= 0)
-		res += _putchar(' ');
-	if (f->plus == 1 && n >= 0)
-		res += _putchar('+');
-	if (n <= 0)
-		res++;
-	print_number(n);
-	return (res);
+int print_int(va_list args, int len)
+{
+	int n;
+
+	n = va_arg(args, int);
+
+	len = _putchar_int(n, len);
+	return (len);
 }
 
 /**
- * print_unsigned - prints an unsigned integer
- * @l: va_list of arguments from _printf
- * @f: pointer to the struct flags determining
- * if a flag is passed to _printf
- * Return: number of char printed
- */
-int print_unsigned(va_list l, flags_t *f)
+  * _putchar_int - prints integers
+  * @n: Number
+  * @len: Length of string so far
+  *
+  * Return: The new length of the string
+  */
+int _putchar_int(int n, int len)
 {
-	unsigned int u = va_arg(l, unsigned int);
-	char *str = convert(u, 10, 0);
-
-	(void)f;
-	return (_puts(str));
-}
-
-/**
- * print_number - helper function that loops through
- * an integer and prints all its digits
- * @n: integer to be printed
- */
-void print_number(int n)
-{
-	unsigned int n1;
+	unsigned long num;
 
 	if (n < 0)
 	{
-		_putchar('-');
-		n1 = -n;
+		len += _putchar('-');
+		num = -(unsigned int)n;
 	}
 	else
-		n1 = n;
+	{
+		num = n;
+	}
+	len += print_numbers(num, 10, "0123456789");
 
-	if (n1 / 10)
-		print_number(n1 / 10);
-	_putchar((n1 % 10) + '0');
+	return (len);
 }
 
 /**
- * count_digit - returns the number of digits in an integer
- * for _printf
- * @i: integer to evaluate
- * Return: number of digits
- */
-int count_digit(int i)
-{
-	unsigned int d = 0;
-	unsigned int u;
+  * print_numbers - Prints numbers according to the specified base
+  * @n: Number to print
+  * @base: The base to print.
+  * @digits: The digits found in this base
+  *
+  * Return: The length
+  */
 
-	if (i < 0)
-		u = i * -1;
-	else
-		u = i;
-	while (u != 0)
+int print_numbers(unsigned long n, unsigned int base, const char *digits)
+{
+	if (n >= base)
+		print_numbers((n / base), base, digits);
+	_putchar(digits[n % base]);
+	return (find_length(n, base) + 1);
+}
+
+/**
+  *find_length - count length of chars to be printed
+  *@n: unsigned int;
+  *@base: base of number
+  *
+  *Return: length;
+  */
+unsigned int find_length(unsigned int n, int base)
+{
+	unsigned int count;
+
+	count = 0;
+	while (n > 0)
 	{
-		u /= 10;
-		d++;
+		n = n / base;
+		if (n == 0)
+			break;
+		count++;
 	}
-	return (d);
+	return (count);
 }
