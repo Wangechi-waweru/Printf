@@ -1,15 +1,15 @@
 #include "main.h"
 
 /**
- * print_ints - prints an integer
+ * print_int - prints an integer
  * @l: va_list of arguments from _printf
  * @f: pointer to the struct flags determining
  * if a flag is passed to _printf
  * Return: number of char printed
  */
-int print_ints(va_list l, flags_t *f)
+int print_int(va_list l, flags_t *f)
 {
-	int n  = va_arg(l, int);
+	int n = va_arg(l, int);
 	int res = count_digit(n);
 
 	if (f->space == 1 && f->plus == 0 && n >= 0)
