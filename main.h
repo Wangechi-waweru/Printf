@@ -30,10 +30,10 @@ typedef struct printHandler
 	int (*f)(va_list ap, flags_t *f);
 } ph;
 
-int print_ints(va_list l, flags_t *f);
-void print_number(int t);
+int print_int(va_list l, flags_t *f);
+void print_number(int n);
 int print_unsigned(va_list l, flags_t *f);
-int count_digit(int a);
+int count_digit(int i);
 int print_hex(va_list l, flags_t *f);
 int print_hex_big(va_list l, flags_t *f);
 int print_binary(va_list l, flags_t *f);
