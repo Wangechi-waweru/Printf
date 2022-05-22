@@ -1,25 +1,25 @@
 #include "main.h"
 
 /**
- * print_int - prints an integer
+ * print_ints - prints an integer
  * @l: va_list of arguments from _printf
  * @f: pointer to the struct flags determining
  * if a flag is passed to _printf
  * Return: number of char printed
  */
-int print_int(va_list l, flags_t *f)
+int print_ints(va_list l, flags_t *f)
 {
-	int n = va_arg(l, int);
-	int res = count_digit(n);
+	int i = va_arg(l, int);
+	int k = count_digit(i);
 
-	if (f->space == 1 && f->plus == 0 && n >= 0)
-		res += _putchar(' ');
-	if (f->plus == 1 && n >= 0)
-		res += _putchar('+');
-	if (n <= 0)
-		res++;
-	print_number(n);
-	return (res);
+	if (f->space == 1 && f->plus == 0 && i >= 0)
+		k += _putchar(' ');
+	if (f->plus == 1 && i >= 0)
+		k += _putchar('+');
+	if (i <= 0)
+		k++;
+	print_number(i);
+	return (k);
 }
 
 /**
@@ -31,8 +31,8 @@ int print_int(va_list l, flags_t *f)
  */
 int print_unsigned(va_list l, flags_t *f)
 {
-	unsigned int u = va_arg(l, unsigned int);
-	char *str = convert(u, 10, 0);
+	unsigned int n = va_arg(l, unsigned int);
+	char *str = convert(n, 10, 0);
 
 	(void)f;
 	return (_puts(str));
@@ -41,44 +41,44 @@ int print_unsigned(va_list l, flags_t *f)
 /**
  * print_number - helper function that loops through
  * an integer and prints all its digits
- * @n: integer to be printed
+ * @t: integer to be printed
  */
-void print_number(int n)
+void print_number(int t)
 {
-	unsigned int n1;
+	unsigned int t1;
 
-	if (n < 0)
+	if (t < 0)
 	{
 		_putchar('-');
-		n1 = -n;
+		t1 = -t;
 	}
 	else
-		n1 = n;
+		t1 = t;
 
-	if (n1 / 10)
-		print_number(n1 / 10);
-	_putchar((n1 % 10) + '0');
+	if (t1 / 10)
+		print_number(t1 / 10);
+	_putchar((t1 % 10) + '0');
 }
 
 /**
  * count_digit - returns the number of digits in an integer
  * for _printf
- * @i: integer to evaluate
+ * @a: integer to evaluate
  * Return: number of digits
  */
-int count_digit(int i)
+int count_digit(int a)
 {
-	unsigned int d = 0;
-	unsigned int u;
+	unsigned int b = 0;
+	unsigned int s;
 
-	if (i < 0)
-		u = i * -1;
+	if (a < 0)
+		s = a * -1;
 	else
-		u = i;
-	while (u != 0)
+		s = a;
+	while (s != 0)
 	{
-		u /= 10;
-		d++;
+		s /= 10;
+		b++;
 	}
-	return (d);
+	return (b);
 }
