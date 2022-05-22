@@ -9,17 +9,17 @@
  */
 int print_ints(va_list l, flags_t *f)
 {
-	int i = va_arg(l, int);
-	int k = count_digit(i);
+	int n  = va_arg(l, int);
+	int res = count_digit(n);
 
-	if (f->space == 1 && f->plus == 0 && i >= 0)
-		k += _putchar(' ');
-	if (f->plus == 1 && i >= 0)
-		k += _putchar('+');
-	if (i <= 0)
-		k++;
-	print_number(i);
-	return (k);
+	if (f->space == 1 && f->plus == 0 && n >= 0)
+		res += _putchar(' ');
+	if (f->plus == 1 && n >= 0)
+		res += _putchar('+');
+	if (n <= 0)
+		res++;
+	print_number(n);
+	return (res);
 }
 
 /**
@@ -31,8 +31,8 @@ int print_ints(va_list l, flags_t *f)
  */
 int print_unsigned(va_list l, flags_t *f)
 {
-	unsigned int n = va_arg(l, unsigned int);
-	char *str = convert(n, 10, 0);
+	unsigned int u = va_arg(l, unsigned int);
+	char *str = convert(u, 10, 0);
 
 	(void)f;
 	return (_puts(str));
@@ -41,44 +41,44 @@ int print_unsigned(va_list l, flags_t *f)
 /**
  * print_number - helper function that loops through
  * an integer and prints all its digits
- * @t: integer to be printed
+ * @n: integer to be printed
  */
-void print_number(int t)
+void print_number(int n)
 {
-	unsigned int t1;
+	unsigned int n1;
 
-	if (t < 0)
+	if (n < 0)
 	{
 		_putchar('-');
-		t1 = -t;
+		n1 = -n;
 	}
 	else
-		t1 = t;
+		n1 = n;
 
-	if (t1 / 10)
-		print_number(t1 / 10);
-	_putchar((t1 % 10) + '0');
+	if (n1 / 10)
+		print_number(n1 / 10);
+	_putchar((n1 % 10) + '0');
 }
 
 /**
  * count_digit - returns the number of digits in an integer
  * for _printf
- * @a: integer to evaluate
+ * @i: integer to evaluate
  * Return: number of digits
  */
-int count_digit(int a)
+int count_digit(int i)
 {
-	unsigned int b = 0;
-	unsigned int s;
+	unsigned int d = 0;
+	unsigned int u;
 
-	if (a < 0)
-		s = a * -1;
+	if (i < 0)
+		u = i * -1;
 	else
-		s = a;
-	while (s != 0)
+		u = i;
+	while (u != 0)
 	{
-		s /= 10;
-		b++;
+		u /= 10;
+		d++;
 	}
-	return (b);
+	return (d);
 }
